@@ -1,0 +1,57 @@
+
+<section class="hero is-halfheight is-black is-bold" @curtainOpenTop *ngIf="!(isCurtainOpen | async)">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title">
+              Your
+            </p>
+        </div>
+    </div>
+</section>
+<section class="hero is-halfheight is-black is-bold" @curtainOpenBottom *ngIf="!(isCurtainOpen | async)">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title">Order</p>
+        </div>
+    </div>
+</section>
+<section class="hero is-fullheight is-black is-bold">
+  <div class="hero-head p-6">
+    <div class="container has-text-centered" *ngIf="isFetchSuccess | async">
+      <p class="heading">e-mail</p>
+      <p class="title">
+        {{ (cart | async)?.email}}
+      </p>
+      <p class="heading">
+        {{ (cart | async)?.form | json }}
+      </p>
+    </div>
+  </div>
+  <div class="hero-body">
+    <div class="container has-text-centered" *ngIf="isFetchSuccess | async">
+        <nav class="level">
+          <div class="level-item" *ngFor="let cart of (carts | async)">
+            <div>
+              <p class="heading">
+                {{ cart.ticket_name + ' € ' + (cart.price / 100) }}
+              </p>
+              <p class="title">
+                {{ cart.quantity }}
+                </p>
+                <br>
+                <p class="heading">
+                  {{ 'total € ' + ((cart.price * cart.quantity) / 100) }}
+                </p>
+            </div>
+          </div>
+        </nav>
+        <br>
+          <a style="width:100%" mat-raised-button color="accent" class="has-text-black" href="{{ url | async }}">
+            {{ 'pay € ' + ((total_price | async)! / 100) }}
+          </a>
+    </div>
+    <div class="container has-text-centered" *ngIf="isFetch | async">
+      <div class="spinner spinner-border"></div>
+    </div>
+  </div>
+</section>

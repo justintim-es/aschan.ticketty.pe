@@ -1,0 +1,69 @@
+<section class="hero is-halfheight is-black is-bold" @curtainOpenTop *ngIf="!(isCurtainOpen | async)">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+          <p class="title">Second hand </p>
+        </div>
+    </div>
+</section>
+<section class="hero is-halfheight is-black is-bold" *ngIf="!(isCurtainOpen | async)" @curtainOpenBottom >
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title">
+              Tickets
+          </p>
+        </div>
+    </div>
+</section>
+<section class="hero is-halfheight is-black is-bold" >
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <nav class="level">
+                <div class="level-item">
+                    <div>
+                        <p class="heading">start</p>
+                        <p class="title">
+                            {{ (event | async)?.date_start }}
+                        </p>
+                        <p class="heading">
+                            {{ (event | async)?.time_start  }}
+                        </p>
+                    </div>
+                </div>
+                <div class="level-item">
+                    <div>
+                        <p class="heading">venue</p>
+                        <p class="title">
+                            {{ (event | async)?.venue }}
+                        </p>
+                        <p class="heading">
+                            {{ (event | async)?.address_one + ' ' + (event | async)?.address_two }}
+                        </p>
+                    </div>
+                </div>
+                <div class="level-item">
+                    <div>
+                        <p class="heading">until</p>
+                        <p class="title">
+                            {{ (event | async)?.date_end }}
+                        </p>
+                        <p class="heading">
+                            {{ (event | async)?.time_end  }}
+                        </p>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</section>
+<section class="hero is-halfheight is-black is-bold" *ngFor="let ticket of (tickets | async)">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <p class="heading">
+        {{ ticket.ticket_name }}
+      </p>
+      <button mat-button (click)="createCart(ticket.resale.id)" class="title">
+        {{ '€ ' + (ticket.resale.price / 100) }}
+      </button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,31 @@
+<section class="hero is-halfheight is-black is-bold" @curtainOpenTop *ngIf="!(isCurtainOpen | async)">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title">
+              One or more
+            </p>
+        </div>
+    </div>
+</section>
+<section class="hero is-halfheight is-black is-bold" @curtainOpenBottom *ngIf="!(isCurtainOpen | async)">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title">Questions</p>
+        </div>
+    </div>
+</section>
+<section class="hero is-fullheight is-black is-bold">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <mat-form-field style="width:100%" color="accent">
+        <input matInput placeholder="E-Mail" [formControl]="emailFormControl" [(ngModel)]="email" />
+      </mat-form-field>
+      <app-form-item *ngFor="let question of (questions | async)" [question]="question"></app-form-item>
+      <button style="width: 100%" (click)="submit()" mat-raised-button color="accent" *ngIf="!(isFetchForm | async)">
+         proceed
+      </button>
+      <div class="spinner spinner-border spinner-border-sm" *ngIf="isFetchForm | async"></div>
+    </div>
+  </div>
+
+</section>

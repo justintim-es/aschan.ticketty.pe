@@ -1,0 +1,13 @@
+<section class="hero is-fullheight is-bold is-black">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <p class="title">Sell your ticket </p>
+      <mat-form-field style="width:100%" color="accent">
+        <span matPrefix>€ &nbsp;</span>
+        <input matInput placeholder="Price" [formControl]="priceFormControl" [(ngModel)]="price" />
+        <button matSuffix mat-button (click)="sell()" color="accent">sell</button>
+        <div class="spinner spinner-border spinner-border-sm" matSuffix *ngIf="isFetch | async"></div>
+      </mat-form-field>
+    </div>
+  </div>
+</section>

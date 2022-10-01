@@ -1,0 +1,264 @@
+<section class="hero is-halfheight is-black is-bold" @curtainOpenTop *ngIf="!(isCurtainOpen | async)">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="spinner spinner-border" *ngIf="isFetchEvent | async"></div>
+            <p class="heading" *ngIf="isFetchEventSuccess | async"> buy your tickets for</p>
+            <p class="title">
+                {{ (event | async)?.name }}
+            </p>
+        </div>
+    </div>
+</section>
+<section class="hero is-halfheight is-black is-bold" @curtainOpenBottom *ngIf="!(isCurtainOpen | async)">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title" *ngIf="isFetchEventSuccess | async">here</p>
+        </div>
+    </div>
+</section>
+
+    <section class="hero is-halfheight is-black is-bold" @enterFromLeft *ngIf="isInfo | async">
+        <div class="hero-head p-6">
+            <div class="container has-text-right">
+              <button mat-button *ngIf="isCartFetched | async" routerLink="{{ '/form/' + event_id + '/' + (recognition | async)   }}">
+                <mat-icon>shopping_cart</mat-icon>
+              </button>
+            </div>
+        </div>
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <nav class="level" *ngIf="isInfo | async">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">start</p>
+                            <p class="title">
+                                {{ (event | async)?.date_start }}
+                            </p>
+                            <p class="heading">
+                                {{ (event | async)?.time_start  }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">venue</p>
+                            <p class="title">
+                                {{ (event | async)?.venue }}
+                            </p>
+                            <p class="heading">
+                                {{ (event | async)?.address_one + ' ' + (event | async)?.address_two }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">until</p>
+                            <p class="title">
+                                {{ (event | async)?.date_end }}
+                            </p>
+                            <p class="heading">
+                                {{ (event | async)?.time_end  }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="level-item" *ngIf="(event | async)?.share_stats">
+                        <div>
+                            <p class="heading">
+                                sold
+                            </p>
+                            <p class="title">
+                                {{ (sold | async) + '/' + (event | async)?.capacity }}
+                            </p>
+                            <p class="heading">
+                                {{ 'tickets left: ' + (left | async)  }}
+                            </p>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="hero-foot">
+            <div class="container has-text-left">
+                <p class="title">
+                    {{ 'Tickettype ' + ((tickettypeIndex | async)!+1) + '/' + (tickettypes | async)?.length }}
+                </p>
+            </div>
+        </div>
+    </section>
+    <div class="is-clipped">
+      <button mat-raised-button color="accent" @enterFromTop  style="width:100%" routerLink="{{ '/resale/' + event_id }}" *ngIf="isTickettypes | async">second hand tickets</button>
+        <section class="hero is-halfheight is-black is-bold" [@slide]="topState | async" @enterFromTop *ngIf="(isTickettypes | async) && (isTop | async)">
+            <div class="hero-head p-3">
+                <div class="container has-text-right">
+                  <p class="heading">
+                    {{ '€ ' + ((tickettype | async)?.price! / 100) }}
+                  </p>
+                        <p class="title">
+                            {{ (tickettype | async)?.name }}
+                        </p>
+
+                </div>
+            </div>
+            <div class="hero-body">
+            <div class="container is-fluid">
+                <nav class="level is-mobile">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <div>
+                                <button mat-button (click)="slidesche('right')">
+                                    <mat-icon>chevron_left</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <div class="spinner spinner-border" *ngIf="isCartFetch | async"></div>
+                            <mat-form-field color="accent" style="width:100%" appearance="fill" *ngIf="!(isCartFetch | async)">
+                                <mat-label>Quantity</mat-label>
+                                <mat-select [(value)]="cartQuantity" (selectionChange)="changeQuantity()">
+                                  <mat-option [value]="1">
+                                    1
+                                  </mat-option>
+                                  <mat-option [value]="2">
+                                    2
+                                  </mat-option>
+                                  <mat-option [value]="3">
+                                    3
+                                  </mat-option>
+                                  <mat-option [value]="4">
+                                    4
+                                  </mat-option>
+                                  <mat-option [value]="5">
+                                    5
+                                  </mat-option>
+                                  <mat-option [value]="6">
+                                    6
+                                  </mat-option>
+                                  <mat-option [value]="7">
+                                    7
+                                  </mat-option>
+                                  <mat-option [value]="8">
+                                    8
+                                  </mat-option>
+                                  <mat-option [value]="9">
+                                    9
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="level-item">
+                            <div>
+                                <button mat-button (click)="slidesche('left')">
+                                    <mat-icon>chevron_right</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+            <div class="hero-foot" *ngIf="(event | async)?.share_stats">
+                <div class="container has-text-left">
+                    <p class="heading">sold</p>
+                    <p class="title">
+                        {{ (tickettype | async)?.sold + '/' + (tickettype | async)?.quantity }}
+                    </p>
+                    <p class="heading">
+                        {{ 'tickets left: ' + (tickettype | async)?.left}}
+                    </p>
+
+                </div>
+            </div>
+        </section>
+        <section class="hero is-halfheight is-black is-bold" [@slide]="bottomState | async" id="ischin" *ngIf="isBottom | async">
+            <div class="hero-head p-3">
+                <div class="container has-text-right">
+                  <p class="heading">
+                    {{ '€ ' + ((bottomTickettype | async)?.price! / 100) }}
+                  </p>
+
+                        <p class="title">
+                            {{ (bottomTickettype | async)?.name }}
+                        </p>
+
+                </div>
+            </div>
+            <div class="hero-body">
+            <div class="container is-fluid">
+                <nav class="level is-mobile">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <div>
+                                <button mat-button (click)="slidesche('right')">
+                                    <mat-icon>chevron_left</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <mat-form-field color="accent" style="width:100%" appearance="fill">
+                                <mat-label>Quantity</mat-label>
+                                <mat-select>
+                                  <mat-option [value]="1">
+                                    1
+                                  </mat-option>
+                                  <mat-option [value]="2">
+                                    2
+                                  </mat-option>
+                                  <mat-option [value]="3">
+                                    3
+                                  </mat-option>
+                                  <mat-option [value]="4">
+                                    4
+                                  </mat-option>
+                                  <mat-option [value]="5">
+                                    5
+                                  </mat-option>
+                                  <mat-option [value]="6">
+                                    6
+                                  </mat-option>
+                                  <mat-option [value]="7">
+                                    7
+                                  </mat-option>
+                                  <mat-option [value]="8">
+                                    8
+                                  </mat-option>
+                                  <mat-option [value]="9">
+                                    9
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="level-item">
+                            <div>
+                                <button mat-button (click)="slidesche('left')">
+                                    <mat-icon>chevron_right</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+            <div class="hero-foot" *ngIf="(event | async)?.share_stats">
+                <div class="container has-text-left">
+                    <p class="heading">sold</p>
+                    <p class="title">
+                        {{ (bottomTickettype | async)?.sold + '/' + (bottomTickettype | async)?.quantity }}
+                    </p>
+                    <p class="heading">
+                        {{ 'tickets left: ' + (bottomTickettype | async)?.left}}
+                    </p>
+
+                </div>
+            </div>
+        </section>
+    </div>

@@ -1,0 +1,98 @@
+<section class="hero is-halfheight is-black is-bold" @curtainOpenTop *ngIf="!(isCurtainOpen | async)">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+          <p class="title">Your</p>
+        </div>
+    </div>
+</section>
+<section class="hero is-halfheight is-black is-bold" *ngIf="!(isCurtainOpen | async)" @curtainOpenBottom >
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title">
+              Tickets
+          </p>
+        </div>
+    </div>
+</section>
+<section class="hero is-fullheight is-black is-bold" [@slide]="topState | async" *ngIf="isTop | async">
+  <div class="hero-head p-6">
+     <div class="container has-text-centered">
+       <p class="title">
+         {{ ((index | async)! +1) + ' / ' + (tickets | async)?.length}}
+       </p>
+     </div>
+  </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <p class="title">
+        {{ (ticket | async)?.ticket_name }}
+      </p>
+      <p class="subtitle">
+        {{ (ticket | async)?.value}}
+      </p>
+    </div>
+  </div>
+<div class="hero-foot p-6">
+  <div class="container has-text-centered">
+    <nav class="level is-mobile">
+      <div class="level-left">
+        <div class="level-item">
+          <button mat-button (click)="slischid(true)"><mat-icon>chevron_left</mat-icon></button>
+        </div>
+      </div>
+      <div class="level-item">
+        <button *ngIf="!(isOnboard | async) && (ticket | async)?.resale && !(isCancel | async) && (ticket | async)?.resale?.is_resold" mat-raised-button (click)="cancel()" color="accent" style="width:100%">
+          sold
+        </button>
+        <button *ngIf="!(isOnboard | async) && (ticket | async)?.resale && !(isCancel | async) && !(ticket | async)?.resale?.is_resold" mat-raised-button (click)="cancel()" color="accent" style="width:100%">
+          cancel resale
+        </button>
+        <button *ngIf="!(isOnboard | async) && !(ticket | async)?.resale && !(isCancel | async)" mat-raised-button (click)="sell()" color="accent" style="width:100%">
+          sell
+        </button>
+        <div class="spinner spinner-border spinner-border-sm" *ngIf="(isOnboard | async) || (isCancel | async)"></div>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <button mat-button (click)="slischid(false)"><mat-icon>chevron_right</mat-icon></button>
+        </div>
+      </div>
+    </nav>
+  </div>
+  </div>
+</section>
+<section class="hero is-fullheight is-black is-bold" [@slide]="bottomState | async" *ngIf="isBottom | async">
+  <div class="hero-head p-6">
+     <div class="container has-text-centered">
+       <p class="title">
+         {{ ((bottomIndex | async)! + 1) + ' / ' + (tickets | async)?.length}}
+       </p>
+     </div>
+  </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <p class="subtitle">
+        {{ (ticket | async)?.value}}
+      </p>
+    </div>
+  </div>
+<div class="hero-foot p-6">
+  <div class="container has-text-centered">
+    <nav class="level is-mobile">
+      <div class="level-left">
+        <div class="level-item">
+          <button mat-button (click)="slischid(true)"><mat-icon>chevron_left</mat-icon></button>
+        </div>
+      </div>
+      <div class="level-item">
+        <button mat-raised-button color="accent" style="width:100%" >sell</button>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <button mat-button (click)="slischid(false)"><mat-icon>chevron_right</mat-icon></button>
+        </div>
+      </div>
+    </nav>
+  </div>
+  </div>
+</section>
